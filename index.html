@@ -1051,6 +1051,25 @@
     .table-cell:nth-child(3) span:last-child {
         font-size: 0.82rem;
     }
+
+    .words-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 640px) {
+    .words-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .word-card:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        max-width: 50%;
+        margin: 0 auto;
+    }
+}
 }
     </style>
 </head>
