@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linguistic Architecture™ - High-Speed Integration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: #FFFFFF;
+            color: #111111;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            backdrop-filter: blur(16px);
+            transition: box-shadow 0.3s;
+        }
+
+        nav.scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 1px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-container {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #111111;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-desktop {
+            display: none;
+            align-items: center;
+            gap: 36px;
+        }
+
+        .nav-link {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #6B7280;
+            letter-spacing: 0.01em;
+            padding: 0;
+            transition: color 0.18s;
+        }
+
+        .nav-link:hover {
+            color: #111111;
+        }
+
+        .menu-toggle {
+            display: flex;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #374151;
+            padding: 4px;
+        }
+
+        .mobile-menu {
+            display: none;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            background: #FFFFFF;
+            padding: 12px 24px 20px;
+        }
+
+        .mobile-menu.open {
+            display: block;
+        }
+
+        .mobile-menu .nav-link {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 11px 0;
+            font-size: 0.92rem;
+            color: #374151;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: #FFFFFF;
+            padding: 140px 24px 100px;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #F4F4F6;
+            border-radius: 100px;
+            padding: 6px 16px;
+            margin-bottom: 40px;
+        }
+
+        .hero-label-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #6B7280;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .hero-h1 {
+            font-weight: 900;
+            font-size: clamp(3.25rem, 8.75vw, 6.25rem);
+            color: #111111;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            margin-bottom: 28px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 400;
+            color: #6B7280;
+            line-height: 1.6;
+            margin-bottom: 64px;
+            max-width: 620px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stats-container {
+            display: inline-flex;
+            gap: 0;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 20px;
+            overflow: hidden;
+            background: #FAFAFA;
+        }
+
+        .stat-item {
+            padding: 24px 36px;
+            text-align: center;
+            border-right: 1px solid rgba(0, 0, 0, 0.07);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #111111;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: #9CA3AF;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .hero-divider {
+            max-width: 1160px;
+            margin: 80px auto 0;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        /* Problem Section */
+        .problem-section {
+            background: #F8F8FA;
+            padding: clamp(72px, 10vw, 112px) 24px;
+        }
+
+        .section-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 56px;
+            max-width: 680px;
+        }
+
+        .section-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #9CA3AF;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .section-h2 {
+            font-weight: 900;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: #111111;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+        }
+
+        .section-desc {
+            font-size: 0.95rem;
+            color: #9CA3AF;
+            line-height: 1.65;
+            margin-top: 4px;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+            margin-bottom: 48px;
+        }
+
+        .problem-card {
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 16px;
+            padding: 26px 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .problem-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .problem-card p {
+            font-size: 0.9rem;
+            color: #374151;
+            line-height: 1.65;
+        }
+
+        .solution-box {
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 20px;
+            padding: clamp(28px, 4vw, 44px);
+        }
+
+        .solution-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .solution-text {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .solution-h3 {
+            font-weight: 800;
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            color: #111111;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 12px;
+        }
+
+        /* Methodology Section */
+        .methodology-section {
+            background: #FFFFFF;
+            padding: clamp(72px, 10vw, 112px) 24px;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 14px;
+        }
+
+        .pillar-card {
+            background: #FAFAFA;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 20px;
+            padding: 32px 28px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .pillar-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pillar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .pillar-num {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #D1D5DB;
+            letter-spacing: 0.12em;
+        }
+
+        .pillar-title {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #111111;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            line-height: 1.25;
+        }
+
+        .pillar-desc {
+            font-size: 0.88rem;
+            color: #6B7280;
+            line-height: 1.65;
+        }
+
+        .pillar-bullets {
+            list-style: none;
+        }
+
+        .pillar-bullet {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .pillar-bullet:last-child {
+            border-bottom: none;
+        }
+
+        .bullet-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #9CA3AF;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .bullet-text {
+            font-size: 0.86rem;
+            color: #6B7280;
+            line-height: 1.6;
+        }
+
+        /* Advantage Section */
+        .advantage-section {
+            background: #F8F8FA;
+            padding: clamp(72px, 10vw, 112px) 24px;
+        }
+
+        .advantage-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .table-card {
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .table-head {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+            background: #FAFAFA;
+        }
+
+        .table-head-cell {
+            padding: 16px 24px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .table-head-cell:nth-child(1),
+        .table-head-cell:nth-child(2) {
+            color: #9CA3AF;
+        }
+
+        .table-head-cell:nth-child(3) {
+            color: #111111;
+        }
+
+        .table-head-cell:not(:first-child) {
+            border-left: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .table-cell {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .table-cell:nth-child(1) {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #9CA3AF;
+            letter-spacing: 0.02em;
+        }
+
+        .table-cell:not(:first-child) {
+            border-left: 1px solid rgba(0, 0, 0, 0.06);
+            gap: 10px;
+        }
+
+        .table-cell:nth-child(3) {
+            background: rgba(0, 0, 0, 0.015);
+        }
+
+        .table-cell:nth-child(2) span:last-child {
+            font-size: 0.88rem;
+            color: #9CA3AF;
+            line-height: 1.45;
+        }
+
+        .table-cell:nth-child(3) span:last-child {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #111111;
+            line-height: 1.45;
+        }
+
+        .result-text {
+            font-size: 0.88rem;
+            color: #9CA3AF;
+            text-align: center;
+            margin-top: 24px;
+            letter-spacing: 0.01em;
+        }
+
+        /* Root Graphic Section */
+        .root-section {
+            background: #FFFFFF;
+            padding: clamp(72px, 10vw, 112px) 24px;
+        }
+
+        .root-container {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .root-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .root-card {
+            background: #FAFAFA;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 24px;
+            padding: clamp(36px, 5vw, 60px);
+        }
+
+        .letters-row {
+            display: flex;
+            justify-content: center;
+            gap: clamp(12px, 3vw, 24px);
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+        }
+
+        .letter-box {
+            text-align: center;
+        }
+
+        .letter-square {
+            width: clamp(76px, 14vw, 108px);
+            height: clamp(76px, 14vw, 108px);
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.09);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .letter-char {
+            font-size: clamp(2.4rem, 5vw, 3.4rem);
+            font-weight: 900;
+            color: #111111;
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .letter-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #9CA3AF;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .divider-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.07);
+        }
+
+        .divider-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #9CA3AF;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .words-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .word-card {
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 16px;
+            padding: 20px 16px;
+            text-align: center;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        .word-trans {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #111111;
+            letter-spacing: -0.01em;
+            margin-bottom: 6px;
+        }
+
+        .word-meaning {
+            font-size: 0.78rem;
+            color: #9CA3AF;
+            font-weight: 500;
+        }
+
+        .conclusion-box {
+            text-align: center;
+            padding: 20px;
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 14px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #111111;
+            letter-spacing: -0.02em;
+        }
+
+        /* Hybrid Model Section */
+        .hybrid-section {
+            background: #F8F8FA;
+            padding: clamp(72px, 10vw, 112px) 24px;
+        }
+
+        .columns-container {
+            display: flex;
+            gap: 16px;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        .column-card {
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 24px;
+            padding: clamp(28px, 4vw, 44px);
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .column-card.light {
+            background: #FAFAFA;
+        }
+
+        .column-card.white {
+            background: #FFFFFF;
+        }
+
+        .column-tag {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #9CA3AF;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .column-title {
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: #111111;
+            letter-spacing: -0.035em;
+            line-height: 1.15;
+            margin-bottom: 4px;
+        }
+
+        .column-duration {
+            font-size: 0.82rem;
+            color: #9CA3AF;
+        }
+
+        .column-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.07);
+            margin: 24px 0 28px;
+        }
+
+        .column-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .column-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .item-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #111111;
+            letter-spacing: -0.01em;
+            margin-bottom: 3px;
+        }
+
+        .item-desc {
+            font-size: 0.84rem;
+            color: #6B7280;
+            line-height: 1.55;
+        }
+
+        .hybrid-note {
+            font-size: 0.82rem;
+            color: #9CA3AF;
+            text-align: center;
+            margin-top: 28px;
+            letter-spacing: 0.02em;
+        }
+
+        /* Investment Section */
+        .investment-section {
+            background: #FFFFFF;
+            padding: clamp(72px, 10vw, 112px) 24px;
+        }
+
+        .investment-container {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        .details-card {
+            background: #FAFAFA;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 24px 32px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row:nth-child(even) {
+            background: #FFFFFF;
+        }
+
+        .detail-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #9CA3AF;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #111111;
+            line-height: 1.5;
+        }
+
+        /* About Section */
+        .about-section {
+            background: #F8F8FA;
+            padding: clamp(72px, 10vw, 112px) 24px;
+        }
+
+        .about-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .profile-card {
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 2px 24px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .profile-photo {
+            width: clamp(220px, 32%, 300px);
+            min-width: 220px;
+            flex-shrink: 0;
+            position: relative;
+            background: #F4F4F6;
+            min-height: 340px;
+            overflow: hidden;
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 260px;
+            padding: clamp(28px, 4vw, 48px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .profile-name-block {
+            margin-bottom: 32px;
+        }
+
+        .profile-name {
+            font-weight: 900;
+            font-size: 1.6rem;
+            color: #111111;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            margin-bottom: 6px;
+        }
+
+        .profile-title {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #9CA3AF;
+            letter-spacing: 0.01em;
+        }
+
+        .credentials-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+
+        .credential-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 16px;
+            background: #F8F8FA;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .credential-text {
+            font-size: 0.87rem;
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .contact-info {
+            border-top: 1px solid rgba(0, 0, 0, 0.07);
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .contact-text {
+            font-size: 0.83rem;
+            color: #9CA3AF;
+        }
+
+        /* Footer */
+        footer {
+            background: #FAFAFA;
+            border-top: 1px solid rgba(0, 0, 0, 0.07);
+            padding: clamp(40px, 6vw, 64px) 24px 32px;
+        }
+
+        .footer-container {
+            max-width: 1160px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-brand-title {
+            font-weight: 900;
+            font-size: 0.95rem;
+            color: #111111;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+        }
+
+        .footer-brand-text {
+            font-size: 0.83rem;
+            color: #9CA3AF;
+            line-height: 1.65;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: clamp(16px, 3vw, 40px);
+            flex-wrap: wrap;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(0, 0, 0, 0.07);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-text {
+            font-size: 0.77rem;
+            color: #9CA3AF;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .nav-desktop {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: none !important;
+            }
+        }
+
+        /* Fade in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Улучшенный responsive Profile Card */
+.profile-card {
+    display: flex;
+    flex-wrap: wrap;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.05);
+}
+
+.profile-photo {
+    width: 100%;                    /* на мобильных — на всю ширину */
+    min-height: 280px;              /* уменьшили */
+    position: relative;
+    background: #F4F4F6;
+    flex-shrink: 0;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;    /* лицо выше — подправь под своё фото */
+}
+
+.profile-info {
+    flex: 1;
+    min-width: 260px;
+    padding: clamp(28px, 5vw, 48px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Desktop версия */
+@media (min-width: 768px) {
+    .profile-card {
+        flex-wrap: nowrap;
+    }
+    
+    .profile-photo {
+        width: clamp(220px, 32%, 300px);
+        min-height: 340px;
+    }
+    
+    .profile-photo img {
+        object-position: center 20%;   /* можно подвинуть лицо */
+    }
+}
+.table-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 20px;
+    overflow-x: auto;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 640px) {
+    .table-head,
+    .table-row {
+        grid-template-columns: 0.8fr 1fr 1.1fr;
+    }
+
+    .table-head-cell,
+    .table-cell {
+        padding: 14px 12px;
+    }
+
+    .table-head-cell {
+        font-size: 0.62rem;
+        letter-spacing: 0.04em;
+    }
+
+    .table-cell:nth-child(2) span:last-child,
+    .table-cell:nth-child(3) span:last-child {
+        font-size: 0.82rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <button class="logo-btn" onclick="scrollToTop()">
+                Linguistic Architecture™
+            </button>
+
+            <div class="nav-desktop">
+                <button class="nav-link" onclick="scrollToSection('#problem')">Problem</button>
+                <button class="nav-link" onclick="scrollToSection('#methodology')">Methodology</button>
+                <button class="nav-link" onclick="scrollToSection('#advantage')">Advantage</button>
+                <button class="nav-link" onclick="scrollToSection('#system')">System</button>
+                <button class="nav-link" onclick="scrollToSection('#investment')">Investment</button>
+                <button class="nav-link" onclick="scrollToSection('#about')">About</button>
+            </div>
+
+            <button class="menu-toggle" onclick="toggleMobileMenu()">
+                <svg id="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <svg id="close-icon" style="display: none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="mobile-menu" id="mobile-menu">
+            <button class="nav-link" onclick="scrollToSection('#problem')">Problem</button>
+            <button class="nav-link" onclick="scrollToSection('#methodology')">Methodology</button>
+            <button class="nav-link" onclick="scrollToSection('#advantage')">Advantage</button>
+            <button class="nav-link" onclick="scrollToSection('#system')">System</button>
+            <button class="nav-link" onclick="scrollToSection('#investment')">Investment</button>
+            <button class="nav-link" onclick="scrollToSection('#about')">About</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-container">
+                <div class="hero-label">
+                    <span style="font-size: 0.75rem;">🌐</span>
+                    <span class="hero-label-text">Premium B2B Language Integration</span>
+                </div>
+
+                <h1 class="hero-h1">
+                    Linguistic Architecture:<br>High-Speed Integration
+                </h1>
+
+                <p class="hero-subtitle">
+                    From "Silent Observer" to "Active Contributor" in 8 Weeks
+                </p>
+
+                <!--<div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Weeks to fluency</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">2</div>
+                        <div class="stat-label">Q2 2026 slots</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">8+</div>
+                        <div class="stat-label">Languages mastered</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-divider"></div>-->
+        </section>
+
+        <!-- Problem Section -->
+        <section id="problem" class="problem-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-tag">The Challenge</span>
+                    <h2 class="section-h2">The Integration Gap: The "Silent Talent" Challenge</h2>
+                    <p class="section-desc">→ Lack of speaking confidence in high-stakes environments.</p>
+                </div>
+
+                <div class="problem-grid">
+                    <!--<div class="problem-card fade-in">
+                        <span style="font-size: 1.2rem; line-height: 1.4; flex-shrink: 0;">🎤</span>
+                        <p>Lack of speaking confidence in high-stakes environments.</p>
+                    </div>-->
+                    <div class="problem-card fade-in">
+                        <span style="font-size: 1.2rem; line-height: 1.4; flex-shrink: 0;">🤐</span>
+                        <p>Low participation in strategic meetings.</p>
+                    </div>
+                    <div class="problem-card fade-in">
+                        <span style="font-size: 1.2rem; line-height: 1.4; flex-shrink: 0;">🏢</span>
+                        <p>Social isolation within the German/English office culture.</p>
+                    </div>
+                    <div class="problem-card fade-in">
+                        <span style="font-size: 1.2rem; line-height: 1.4; flex-shrink: 0;">⏳</span>
+                        <p>Slow onboarding of international experts.</p>
+                    </div>
+                    <div class="problem-card fade-in">
+                        <span style="font-size: 1.2rem; line-height: 1.4; flex-shrink: 0;">📉</span>
+                        <p>Increased attrition risk – high-level talent leaving due to a lack of integration.</p>
+                    </div>
+                </div>
+
+                <div class="solution-box fade-in">
+                    <div class="solution-content">
+                        <span style="font-size: 1.6rem; line-height: 1; flex-shrink: 0; margin-top: 2px;">💡</span>
+                        <div class="solution-text">
+                            <p style="font-size: 0.72rem; font-weight: 700; color: #9CA3AF; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px;">→ The Solution</p>
+                            <h3 class="solution-h3">Linguistic Architecture™</h3>
+                            <p style="font-size: 0.95rem; color: #6B7280; line-height: 1.65;">Transforming silent professionals into confident communicators.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Methodology Section -->
+        <section id="methodology" class="methodology-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-tag">The Methodology</span>
+                    <h2 class="section-h2">Structural Language Architecture™</h2>
+                    <p style="font-size: 0.95rem; color: #6B7280; line-height: 1.65;">A structural approach designed for high-performing professionals. No textbooks—just architecture.</p>
+                </div>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card fade-in">
+                        <div class="pillar-header">
+                            <span class="pillar-num">01</span>
+                            <span style="font-size: 1.4rem;">🎯</span>
+                        </div>
+                        <h3 class="pillar-title">Scenario-Based Training</h3>
+                        <p class="pillar-desc">Targeted coaching for Meetings, Feedback, and Client Calls.</p>
+                    </div>
+
+                    <div class="pillar-card fade-in">
+                        <div class="pillar-header">
+                            <span class="pillar-num">02</span>
+                            <span style="font-size: 1.4rem;">🧱</span>
+                        </div>
+                        <h3 class="pillar-title">Structural Language Mapping</h3>
+                        <ul class="pillar-bullets">
+                            <li class="pillar-bullet">
+                                <span class="bullet-dot"></span>
+                                <span class="bullet-text">Deconstruction: Breaking words into roots and logical patterns.</span>
+                            </li>
+                            <li class="pillar-bullet">
+                                <span class="bullet-dot"></span>
+                                <span class="bullet-text">Word Families: Mastering 10+ related terms simultaneously.</span>
+                            </li>
+                            <li class="pillar-bullet">
+                                <span class="bullet-dot"></span>
+                                <span class="bullet-text">Syntactic Logic: Professional collocations and sentence "glue."</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="pillar-card fade-in">
+                        <div class="pillar-header">
+                            <span class="pillar-num">03</span>
+                            <span style="font-size: 1.4rem;">🤖</span>
+                        </div>
+                        <h3 class="pillar-title">AI-Driven Individualization</h3>
+                        <p class="pillar-desc">Leveraging AI to create role-specific feedback loops.</p>
+                    </div>
+
+                    <div class="pillar-card fade-in">
+                        <div class="pillar-header">
+                            <span class="pillar-num">04</span>
+                            <span style="font-size: 1.4rem;">🎧</span>
+                        </div>
+                        <h3 class="pillar-title">Daily Audio Immersion</h3>
+                        <p class="pillar-desc">20-minute personalized audio routines for rapid retention.</p>
+                    </div>
+
+                    <div class="pillar-card fade-in">
+                        <div class="pillar-header">
+                            <span class="pillar-num">05</span>
+                            <span style="font-size: 1.4rem;">⚡</span>
+                        </div>
+                        <h3 class="pillar-title">Immediate ROI</h3>
+                        <p class="pillar-desc">Applied usage in real office conversations from Day 1.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Advantage Section -->
+        <section id="advantage" class="advantage-section">
+            <div class="advantage-container">
+                <div class="section-header">
+                    <span class="section-tag">The Strategic Advantage</span>
+                    <h2 class="section-h2">Traditional learning vs. Linguistic Architecture</h2>
+                </div>
+
+                <div class="table-card fade-in">
+                    <div class="table-head">
+                        <div class="table-head-cell">Category</div>
+                        <div class="table-head-cell">Traditional learning</div>
+                        <div class="table-head-cell">Linguistic Architecture™</div>
+                    </div>
+
+                    <div class="table-row">
+                        <div class="table-cell">Learning Approach</div>
+                        <div class="table-cell">
+                            <span style="font-size: 0.8rem;">✗</span>
+                            <span>Rote Memorization</span>
+                        </div>
+                        <div class="table-cell">
+                            <span style="font-size: 0.8rem;">✓</span>
+                            <span>Systemic Patterns</span>
+                        </div>
+                    </div>
+
+                    <div class="table-row">
+                        <div class="table-cell">Content Type</div>
+                        <div class="table-cell">
+                            <span style="font-size: 0.8rem;">✗</span>
+                            <span>One-size-fits-all Content</span>
+                        </div>
+                        <div class="table-cell">
+                            <span style="font-size: 0.8rem;">✓</span>
+                            <span>Job-Specific Content</span>
+                        </div>
+                    </div>
+
+                    <div class="table-row">
+                        <div class="table-cell">Knowledge Type</div>
+                        <div class="table-cell">
+                            <span style="font-size: 0.8rem;">✗</span>
+                            <span>Theoretical Knowledge</span>
+                        </div>
+                        <div class="table-cell">
+                            <span style="font-size: 0.8rem;">✓</span>
+                            <span>Active production</span>
+                        </div>
+                    </div>
+
+                    <div class="table-row">
+                        <div class="table-cell">Timeline</div>
+                        <div class="table-cell">
+                            <span style="font-size: 0.8rem;">✗</span>
+                            <span>Indefinite Timelines</span>
+                        </div>
+                        <div class="table-cell">
+                            <span style="font-size: 0.8rem;">✓</span>
+                            <span>Accelerated Fluency Timeline</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="result-text">Result: Measurable transition to active professional ✓</p>
+            </div>
+        </section>
+
+        <!-- Root Graphic Section -->
+        <section id="system" class="root-section">
+            <div class="root-container">
+                <div class="root-header fade-in">
+                    <span class="section-tag" style="display: block; margin-bottom: 12px;">Structural Deconstruction</span>
+                    <h2 class="section-h2" style="margin-bottom: 16px;">The Power of the Root:<br>The k−t−b Architecture</h2>
+                    <p style="font-size: 0.95rem; color: #9CA3AF;">K-T-B = Writing</p>
+                </div>
+
+                <div class="root-card fade-in">
+                    <div class="letters-row">
+                        <div class="letter-box">
+                            <div class="letter-square">
+                                <span class="letter-char">K</span>
+                            </div>
+                            <span class="letter-label">Kaf</span>
+                        </div>
+                        <div class="letter-box">
+                            <div class="letter-square">
+                                <span class="letter-char">T</span>
+                            </div>
+                            <span class="letter-label">Ta</span>
+                        </div>
+                        <div class="letter-box">
+                            <div class="letter-square">
+                                <span class="letter-char">B</span>
+                            </div>
+                            <span class="letter-label">Ba</span>
+                        </div>
+                    </div>
+
+                    <div class="divider-row">
+                        <div class="divider-line"></div>
+                        <span class="divider-label">Derived Words</span>
+                        <div class="divider-line"></div>
+                    </div>
+
+                    <div class="words-grid">
+                        <div class="word-card">
+                            <div class="word-trans">Ka-Ta-Ba</div>
+                            <div class="word-meaning">He wrote</div>
+                        </div>
+                        <div class="word-card">
+                            <div class="word-trans">Kā-ti-b</div>
+                            <div class="word-meaning">Author</div>
+                        </div>
+                        <div class="word-card">
+                            <div class="word-trans">Ki-Ta-B</div>
+                            <div class="word-meaning">Book</div>
+                        </div>
+                        <div class="word-card">
+                            <div class="word-trans">Ku-Tu-B</div>
+                            <div class="word-meaning">Books</div>
+                        </div>
+                        <div class="word-card">
+                            <div class="word-trans">Ma-K-Ta-B</div>
+                            <div class="word-meaning">Office / Desk</div>
+                        </div>
+                        <div class="word-card">
+                            <div class="word-trans">Ma-K-Ta-Ba</div>
+                            <div class="word-meaning">Library</div>
+                        </div>
+                    </div>
+
+                    <div class="conclusion-box">
+                        <p class="conclusion-text">One Root = 10+ professional terms unlocked 🔓</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hybrid Model Section -->
+        <section class="hybrid-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-tag">Delivery System</span>
+                    <h2 class="section-h2" style="margin-bottom: 12px;">Human Strategy Meets × AI Scalability</h2>
+                    <p style="font-size: 0.95rem; color: #6B7280; line-height: 1.6;">The Hybrid Delivery Model</p>
+                </div>
+
+                <div class="columns-container">
+                    <div class="column-card white fade-in">
+                        <div style="margin-bottom: 24px;">
+                            <span class="column-tag">Weekly · Human-Led</span>
+                            <h3 class="column-title">The Deep Dive</h3>
+                            <span class="column-duration">60–90m Strategic Coaching</span>
+                        </div>
+
+                        <div class="column-divider"></div>
+
+                        <div class="column-items">
+                            <div class="column-item">
+                                <span style="font-size: 1.1rem; line-height: 1.3; flex-shrink: 0;">🗺️</span>
+                                <div>
+                                    <div class="item-title">Scenario Mapping</div>
+                                    <div class="item-desc">Preparing the talent for high-stakes meetings</div>
+                                </div>
+                            </div>
+                            <div class="column-item">
+                                <span style="font-size: 1.1rem; line-height: 1.3; flex-shrink: 0;">📐</span>
+                                <div>
+                                    <div class="item-title">The Blueprint</div>
+                                    <div class="item-desc">Deconstructing the structural DNA of the talent's role</div>
+                                </div>
+                            </div>
+                            <div class="column-item">
+                                <span style="font-size: 1.1rem; line-height: 1.3; flex-shrink: 0;">🎙️</span>
+                                <div>
+                                    <div class="item-title">Confidence Activation</div>
+                                    <div class="item-desc">Shifting from "silent expert" to "active speaker"</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column-card light fade-in">
+                        <div style="margin-bottom: 24px;">
+                            <span class="column-tag">Daily · AI-Powered</span>
+                            <h3 class="column-title">The Daily Engine</h3>
+                            <span class="column-duration">20m High-Intensity Practice</span>
+                        </div>
+
+                        <div class="column-divider"></div>
+
+                        <div class="column-items">
+                            <div class="column-item">
+                                <span style="font-size: 1.1rem; line-height: 1.3; flex-shrink: 0;">🃏</span>
+                                <div>
+                                    <div class="item-title">Smart Decks</div>
+                                    <div class="item-desc">Individualized vocabulary curated from the 1:1 sessions</div>
+                                </div>
+                            </div>
+                            <div class="column-item">
+                                <span style="font-size: 1.1rem; line-height: 1.3; flex-shrink: 0;">🎙️</span>
+                                <div>
+                                    <div class="item-title">AI-Podcast</div>
+                                    <div class="item-desc">A personalized audio stream reflecting the talent's job-context</div>
+                                </div>
+                            </div>
+                            <div class="column-item">
+                                <span style="font-size: 1.1rem; line-height: 1.3; flex-shrink: 0;">💬</span>
+                                <div>
+                                    <div class="item-title">Speaking Activation</div>
+                                    <div class="item-desc">Moving from passive understanding to active production</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="hybrid-note">Human Strategy Meets × AI Scalability — The Hybrid Delivery Model</p>
+            </div>
+        </section>
+
+        <!-- Investment Section -->
+        <section id="investment" class="investment-section">
+            <div class="investment-container">
+                <div class="section-header">
+                    <span class="section-tag">Strategic Investment</span>
+                    <h2 class="section-h2" style="margin-bottom: 16px;">Strategic Pilot: High-Impact Language Activation</h2>
+                    <p style="font-size: 0.95rem; color: #6B7280; line-height: 1.65;">A results-oriented framework for international high-performers.</p>
+                </div>
+
+                <div class="details-card fade-in">
+                    <div class="detail-row">
+                        <span style="font-size: 1.2rem; line-height: 1; flex-shrink: 0; margin-top: 2px;">💶</span>
+                        <div style="flex: 1;">
+                            <div class="detail-label">Pilot Rate</div>
+                            <div class="detail-value">€1,999 per Talent</div>
+                        </div>
+                    </div>
+                    <div class="detail-row">
+                        <span style="font-size: 1.2rem; line-height: 1; flex-shrink: 0; margin-top: 2px;">🏷️</span>
+                        <div style="flex: 1;">
+                            <div class="detail-label">Standard Corporate Rate</div>
+                            <div class="detail-value">€2,500</div>
+                        </div>
+                    </div>
+                    <div class="detail-row">
+                        <span style="font-size: 1.2rem; line-height: 1; flex-shrink: 0; margin-top: 2px;">🎯</span>
+                        <div style="flex: 1;">
+                            <div class="detail-label">Capacity</div>
+                            <div class="detail-value">Strictly limited to 2 Strategic Slots for Q2 2026.</div>
+                        </div>
+                    </div>
+                    <div class="detail-row">
+                        <span style="font-size: 1.2rem; line-height: 1; flex-shrink: 0; margin-top: 2px;">📊</span>
+                        <div style="flex: 1;">
+                            <div class="detail-label">Goal</div>
+                            <div class="detail-value">Establishing a high-impact Case Study for the Linguistic Architecture™ framework in professional integration.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="about-container">
+                <div style="margin-bottom: 52px;">
+                    <span class="section-tag" style="display: block; margin-bottom: 12px;">About the Author</span>
+                    <h2 class="section-h2">Daniel Meyer</h2>
+                </div>
+
+<div class="profile-card fade-in">
+    <div class="profile-photo">
+        <img src="images/daniel.JPG.jpeg" 
+             alt="Daniel Meyer">
+    </div>
+
+    <div class="profile-info">
+        <div class="profile-name-block">
+            <h3 class="profile-name">Daniel Meyer</h3>
+            <p class="profile-title">Language Strategist & Author</p>
+        </div>
+
+        <div class="credentials-list">
+            <div class="credential-item">
+                <span style="font-size: 1rem;">🌍</span>
+                <p class="credential-text">Polyglot: Mastered 8 languages (3 in the last 6 months).</p>
+            </div>
+            <div class="credential-item">
+                <span style="font-size: 1rem;">📖</span>
+                <p class="credential-text">Author: Practical Guide to Linguistic Architecture (2026).</p>
+            </div>
+            <div class="credential-item">
+                <span style="font-size: 1rem;">📱</span>
+                <p class="credential-text">Developer: Building the Linguistic Architecture App for global teams.</p>
+            </div>
+        </div>
+
+        <div class="contact-info">
+            <p class="contact-text">✉️ ConnectFlow@skymail.de</p>
+            <p class="contact-text">🔗 <a href="linkedin.com/in/daniel-meyer-04147a3b3a">LinkedIn</a></p>
+        </div>
+    </div>
+</div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-brand-title">Linguistic Architecture™</div>
+                    <p class="footer-brand-text">Transforming silent professionals into confident communicators.</p>
+                </div>
+
+                <div class="footer-nav">
+                    <button class="nav-link" onclick="scrollToSection('#problem')">Problem</button>
+                    <button class="nav-link" onclick="scrollToSection('#methodology')">Methodology</button>
+                    <button class="nav-link" onclick="scrollToSection('#advantage')">Advantage</button>
+                    <button class="nav-link" onclick="scrollToSection('#system')">System</button>
+                    <button class="nav-link" onclick="scrollToSection('#investment')">Investment</button>
+                    <button class="nav-link" onclick="scrollToSection('#about')">About</button>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-text">© <span id="current-year"></span> Linguistic Architecture™ · Daniel Meyer</p>
+                <p class="footer-text">ConnectFlow@skymail.de</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 16) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            if (mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            } else {
+                mobileMenu.classList.add('open');
+                menuIcon.style.display = 'none';
+                closeIcon.style.display = 'block';
+            }
+        }
+
+        // Smooth scroll to section
+        function scrollToSection(selector) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            mobileMenu.classList.remove('open');
+            menuIcon.style.display = 'block';
+            closeIcon.style.display = 'none';
+            
+            const element = document.querySelector(selector);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in, .problem-card, .pillar-card');
+            fadeElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
